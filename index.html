@@ -192,11 +192,11 @@
       </div>
       <div class="row rv">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg></span>
-        <span><b>Install a TechNext skill</b><span>Download the .zip and unzip it into <code>~/.claude/skills</code> (Windows: <code>C:\Users\&lt;you&gt;\.claude\skills</code>), or copy the install command. Then restart Claude Code.</span></span>
+        <span><b>Install a TechNext skill</b><span>Every skill has its own GitHub repo: <code>git clone</code> it into <code>~/.claude/skills/&lt;name&gt;</code> and <code>git pull</code> to update. Or download the .zip and unzip it into <code>~/.claude/skills</code> (Windows: <code>C:\Users\&lt;you&gt;\.claude\skills</code>), or copy the install command. Then restart Claude Code.</span></span>
       </div>
       <div class="row rv">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>
-        <span><b>Kept up to date</b><span>After every job, Claude adds what it learned to the skill&rsquo;s lessons log and rules, then rebuilds this page with <code>tools/build_skills.py</code>.</span></span>
+        <span><b>Kept up to date</b><span>After every job, Claude adds what it learned to the skill&rsquo;s lessons log and rules, then <code>tools/build_skills.py --push</code> updates its repo and this page. It runs by itself whenever a skill changes.</span></span>
       </div>
       <div class="row rv">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
@@ -215,7 +215,7 @@
   </div>
 </footer>
 
-<script src="assets/skills/skills.js?v=8ee8ed4a"></script>
+<script src="assets/skills/skills.js?v=5a938495"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script>
 (function(){
@@ -229,6 +229,7 @@
   var GROUP={video:'Video & Nexi',decks:'Presentations',social:'Social posts',team:'AI team'};
   var LABEL={'SKILL.md':'Overview','engine.md':'Engine API','qa-checklist.md':'QA checklist','design-rules.md':'Design rules','lessons.md':'Lessons log','workflow.md':'Workflow','film-template.js':'Film template','rules.md':'Rulebook','content-rules.md':'Content rules','build-and-ship.md':'Build and ship','decks.md':'The decks','recipes.md':'Recipes','design.md':'Design system','deck_check.py':'QA gate script','deck_pdf.py':'PDF script','thumbs.py':'Thumbnail script','drive_sync.py':'Drive sync script','_cdp.py':'Chrome helper'};
   var IC={
+    git:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-3 3.5-9.5 5"/></svg>',
     read:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m0 0 6-6m-6 6-6-6"/></svg>',
     down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg>',
     copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
@@ -247,7 +248,7 @@
   function feature(s){
     var zipUrl=new URL(s.zip,location.href).href;
     var ps='iwr '+zipUrl+' -OutFile $env:TEMP\\'+s.id+'.zip; Expand-Archive $env:TEMP\\'+s.id+'.zip $HOME\\.claude\\skills -Force';
-    var sh='curl -sL '+zipUrl+' -o /tmp/'+s.id+'.zip && unzip -o /tmp/'+s.id+'.zip -d ~/.claude/skills';
+    var gc='git clone '+s.repo+' ~/.claude/skills/'+s.id;
     var steps=(s.steps||[]).map(function(st){return '<li><b>'+esc(st.t)+'</b><span>'+esc(st.d)+'</span></li>';}).join('');
     var files=(s.docs||[]).map(function(d,i){
       return '<button type="button" role="tab" id="tab-'+s.id+'-'+i+'" aria-selected="'+(i===0)+'" aria-controls="doc-'+s.id+'" data-skill="'+s.id+'" data-i="'+i+'"><b>'+esc(label(d.path))+'</b><small>'+esc(d.path)+'</small></button>';
@@ -262,7 +263,8 @@
           +'<a class="btn p" href="#doc-'+s.id+'" data-jump="'+s.id+'">'+IC.read+'Read the skill</a>'
           +'<a class="btn" href="'+esc(s.zip)+'" download>'+IC.down+'Download .zip <small>('+s.zipsize+')</small></a>'
           +'<button class="btn" type="button" data-copy="'+esc(ps)+'" title="'+esc(ps)+'">'+IC.copy+'Install (PowerShell)</button>'
-          +'<button class="btn" type="button" data-copy="'+esc(sh)+'" title="'+esc(sh)+'">'+IC.copy+'Install (bash)</button>'
+          +'<button class="btn" type="button" data-copy="'+esc(gc)+'" title="'+esc(gc)+'">'+IC.copy+'Install (git clone)</button>'
+          +'<a class="btn" href="'+esc(s.repo)+'" target="_blank" rel="noopener">'+IC.git+'GitHub repo</a>'
         +'</div>'
       +'</div>'+(s.art?'<div class="art"><img src="'+esc(s.art.src)+'" alt="" width="'+s.art.w+'" height="'+s.art.h+'" loading="lazy"></div>':'')+'</div>'
       +(steps?'<div class="pipe-wrap"><h4>'+esc(s.pipe||'How we do one job')+'</h4><ol class="pipe">'+steps+'</ol></div>':'')

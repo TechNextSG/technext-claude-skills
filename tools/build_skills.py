@@ -7,14 +7,26 @@ written to install from. Third-party skills are not listed here.
     python tools/build_skills.py
 
 Writes assets/skills/skills.js (window.SKILLS) and assets/skills/<name>.zip,
-and stamps skills.js?v=<md5> into index.html. Re-run after every skill
-update, then commit and push (repo TechNextSG/technext-claude-skills).
+and stamps skills.js?v=<md5> into index.html.
+
+Every skill also has its own public repo, TechNextSG/claude-skill-<name>,
+cloned under ~/ClaudeWork/claude-skills/. The build copies each skill there
+(same filters and redaction as the zip, plus a README).
+
+    python tools/build_skills.py --push
+
+commits and pushes every skill repo that changed (creating it on GitHub the
+first time) and then this site. A Claude Code Stop hook (tools/autosync.py)
+runs it whenever a skill folder changes, so the repos follow every use.
 """
 import datetime
 import hashlib
 import json
 import pathlib
 import re
+import shutil
+import subprocess
+import sys
 import zipfile
 
 from PIL import Image
@@ -22,6 +34,9 @@ from PIL import Image
 SITE = pathlib.Path(__file__).resolve().parent.parent
 SKILLS = pathlib.Path.home() / ".claude" / "skills"
 OUT = SITE / "assets" / "skills"
+REPOS = pathlib.Path.home() / "ClaudeWork" / "claude-skills"
+ORG = "TechNextSG"
+SITE_URL = "https://technextsg.github.io/technext-claude-skills/"
 
 # Skills TechNext wrote. Add a new one here to publish it.
 OWN = ["marketing-team", "nexi-character", "nexi-explains-posters", "nexi-video",
@@ -171,7 +186,83 @@ def write_zip(name, folder, dest):
             z.writestr(info, data)
 
 
+def git(cwd, *args, check=True):
+    return subprocess.run(["git", *args], cwd=cwd, check=check, capture_output=True, text=True).stdout.strip()
+
+
+def readme(sid, meta):
+    repo = f"claude-skill-{sid}"
+    return f"""# {sid}
+
+{redact(meta.get("description", ""))}
+
+A Claude Code skill made by [TechNext](https://technext.asia). Read it online with every other TechNext skill:
+{SITE_URL}#{sid}
+
+## Install
+
+```bash
+git clone https://github.com/{ORG}/{repo} ~/.claude/skills/{sid}
+```
+
+Then restart Claude Code. Update later with `git -C ~/.claude/skills/{sid} pull`.
+
+This repo is generated from the working copy by `tools/build_skills.py` in
+[{ORG}/technext-claude-skills](https://github.com/{ORG}/technext-claude-skills) and updates after every job.
+Big render caches stay on the PC and are left out.
+"""
+
+
+def sync_repo(sid, folder, meta, push):
+    """Mirror one skill into its own repo; returns the repo URL."""
+    repo = f"claude-skill-{sid}"
+    dest = REPOS / repo
+    url = f"https://github.com/{ORG}/{repo}"
+    if not (dest / ".git").exists():
+        dest.mkdir(parents=True, exist_ok=True)
+        git(dest, "init", "-q", "-b", "main")
+        git(dest, "config", "core.autocrlf", "false")
+        for k in ("user.name", "user.email"):
+            v = git(SITE, "config", k, check=False)
+            if v:
+                git(dest, "config", k, v)
+    # Start from an empty tree so files deleted from the skill disappear from the repo too.
+    for p in dest.iterdir():
+        if p.name != ".git":
+            shutil.rmtree(p) if p.is_dir() else p.unlink()
+    for p in files_of(folder):
+        if p.stat().st_size > MAX_ZIP_FILE:
+            continue
+        out = dest / p.relative_to(folder)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        data = p.read_bytes()
+        if p.suffix.lower() in TEXT:
+            data = redact(data.decode("utf-8", errors="replace")).replace("\r\n", "\n").encode("utf-8")
+        out.write_bytes(data)
+    if not (folder / "README.md").exists():
+        (dest / "README.md").write_text(readme(sid, meta), encoding="utf-8", newline="\n")
+    git(dest, "add", "-A")
+    changed = git(dest, "status", "--porcelain")
+    if changed:
+        git(dest, "commit", "-q", "-m", f"Update {sid} ({datetime.date.today().isoformat()})\n\n"
+            "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
+    if push:
+        if not git(dest, "remote", check=False):
+            exists = subprocess.run(["gh", "repo", "view", f"{ORG}/{repo}"], capture_output=True).returncode == 0
+            if exists:
+                git(dest, "remote", "add", "origin", url + ".git")
+                git(dest, "push", "-q", "-u", "-f", "origin", "main")
+            else:
+                subprocess.run(["gh", "repo", "create", f"{ORG}/{repo}", "--public", "--source", str(dest), "--push",
+                                "-d", f"Claude Code skill: {sid} (TechNext)", "-h", SITE_URL + "#" + sid],
+                               check=True, capture_output=True)
+        elif changed or git(dest, "status", "-sb").find("ahead") > -1:
+            git(dest, "-c", "http.postBuffer=524288000", "push", "-q")
+    return url, bool(changed)
+
+
 def main():
+    push = "--push" in sys.argv
     OUT.mkdir(parents=True, exist_ok=True)
     skills = []
     for sid in OWN:
@@ -212,8 +303,10 @@ def main():
         write_zip(sid, folder, OUT / f"{sid}.zip")
         size = (OUT / f"{sid}.zip").stat().st_size
         s["zipsize"] = f"{size / 1048576:.1f} MB" if size >= 1048576 else f"{max(1, round(size / 1024))} KB"
+        s["repo"], s["repochanged"] = sync_repo(sid, folder, meta, push)
         skills.append(s)
 
+    changed = [s["id"] for s in skills if s.pop("repochanged")]
     data = {"built": datetime.date.today().isoformat(), "skills": skills}
     js = ("/* Generated by tools/build_skills.py from ~/.claude/skills. Do not edit by hand. */\n"
           "window.SKILLS=" + json.dumps(data, ensure_ascii=True, separators=(",", ":")) + ";\n")
@@ -228,6 +321,16 @@ def main():
     for s in skills:
         print(f"{s['id']:24} {len(s['steps']):2} steps {len(s['docs']):3} docs  zip {s['zipsize']}")
     print(f"{len(skills)} skills -> {OUT.relative_to(SITE)} ({len(js) // 1024} KB skills.js)")
+    print("skill repos changed: " + (", ".join(changed) or "none"))
+    if push:
+        git(SITE, "add", "index.html", "assets/skills", "tools")
+        if git(SITE, "status", "--porcelain", "index.html", "assets/skills", "tools"):
+            git(SITE, "commit", "-q", "-m", "Rebuild skills" + (": " + ", ".join(changed) if changed else "") +
+                "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
+            git(SITE, "-c", "http.postBuffer=524288000", "push", "-q")
+            print("site pushed")
+        else:
+            print("site unchanged")
 
 
 if __name__ == "__main__":
