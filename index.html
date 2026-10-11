@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>TechNext Claude Skills</title>
+<meta name="description" content="Every Claude Code skill TechNext built, published in full: the Nexi video, character and poster playbooks, the social post skills, the HTML presentations and the AI marketing team. Read, download and install.">
+<link rel="icon" type="image/png" href="assets/logo/technext-brandmark-blue.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hub.css?v=6">
+<style>
+:root{--mono:ui-monospace,"SFMono-Regular","Cascadia Mono",Consolas,"Liberation Mono",monospace;--navy:#16213E}
+.is-hidden{display:none!important}
+.hero .stats{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:18px;font-size:14px;color:var(--ink-3)}
+.hero .stats b{color:var(--ink);font-family:var(--font-display);font-weight:800}
+
+/* featured TechNext skill */
+.feat{position:relative;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow-md);overflow:clip}
+.feat+.feat{margin-top:28px}
+.fhead{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:center;padding:clamp(22px,3.4vw,40px);
+  background:radial-gradient(120% 140% at 100% 0%,rgba(111,160,245,.26),transparent 55%),linear-gradient(160deg,#fff 30%,var(--blue-050))}
+.fhead .eyebrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.badge.own{background:var(--blue);color:#fff;border-color:var(--blue)}
+.badge.own::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+.fhead h3{font-size:clamp(30px,4.2vw,46px);font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.fhead h3 span{color:var(--blue)}
+.fhead .lede{margin:12px 0 0;font-size:16.5px;line-height:1.6;color:var(--ink-2);max-width:62ch}
+.fhead .kpis{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0;padding:0;list-style:none}
+.fhead .kpis li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;color:var(--ink-3);line-height:1.3}
+.fhead .kpis b{display:block;font-family:var(--font-display);font-size:18px;color:var(--ink);font-weight:800}
+.fhead .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.fhead .art{position:relative;align-self:end;justify-self:center;width:100%;max-width:300px}
+.fhead .art img{width:100%;height:auto;filter:drop-shadow(0 26px 30px rgba(30,70,145,.28))}
+.fhead .art::before{content:"";position:absolute;left:12%;right:12%;bottom:2%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(49,103,202,.28),transparent)}
+
+/* pipeline */
+.pipe-wrap{padding:clamp(18px,3vw,30px) clamp(22px,3.4vw,40px) clamp(22px,3vw,34px);border-top:1px solid var(--line)}
+.pipe-wrap h4{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-700);margin:0 0 16px;font-family:var(--font-body)}
+.pipe{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px 16px;counter-reset:st}
+.pipe li{position:relative;padding-top:46px;counter-increment:st}
+.pipe li::before{content:counter(st);position:absolute;left:0;top:0;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:800 14px/1 var(--font-display);color:#fff;background:var(--blue);box-shadow:0 0 0 5px var(--blue-050)}
+.pipe li::after{content:"";position:absolute;left:44px;right:-10px;top:17px;height:2px;background:linear-gradient(90deg,var(--blue-100),var(--blue-050))}
+.pipe li:nth-child(5n)::after,.pipe li:last-child::after{display:none}
+.pipe b{display:block;font-family:var(--font-display);font-size:15.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.pipe span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px;line-height:1.5;color:var(--ink-3)}
+
+/* reader */
+.reader{display:grid;grid-template-columns:250px minmax(0,1fr);border-top:1px solid var(--line)}
+.rfiles{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 64px);overflow:auto;display:flex;flex-direction:column;gap:4px;padding:16px 14px;background:var(--bg);border-right:1px solid var(--line)}
+.rfiles .lbl{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding:4px 10px 8px}
+.rfiles button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;border:1px solid transparent;background:transparent;border-radius:11px;padding:9px 12px;cursor:pointer;color:var(--ink-2);transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease)}
+.rfiles button:hover{background:#fff;border-color:var(--line)}
+.rfiles button b{font-size:14.5px;font-weight:600}
+.rfiles button small{font:12px/1.3 var(--mono);color:var(--ink-3)}
+.rfiles button[aria-selected="true"]{background:#fff;border-color:var(--blue-100);color:var(--blue-700);box-shadow:var(--shadow-sm)}
+.rfiles button:focus-visible,.more:focus-visible,.chip:focus-visible{outline:3px solid var(--blue-300);outline-offset:2px}
+.doc{min-width:0;padding:clamp(20px,3.4vw,40px) clamp(18px,4vw,52px) clamp(28px,4vw,48px);font-size:15.5px;line-height:1.72;color:var(--ink-2)}
+.doc .path{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:18px;font:12.5px/1.4 var(--mono);color:var(--ink-3)}
+.doc .path .btn{font-family:var(--font-body);padding:6px 10px;font-size:12.5px}
+.doc .md>*:first-child{margin-top:0}
+.doc h1{font-size:clamp(26px,3vw,34px);font-weight:800;color:var(--ink);margin:0 0 14px}
+.doc h2{font-size:22px;font-weight:700;color:var(--ink);margin:34px 0 12px;padding-top:22px;border-top:1px solid var(--line)}
+.doc h3{font-size:17px;font-weight:700;color:var(--ink);margin:24px 0 8px}
+.doc p{margin:0 0 14px;max-width:76ch}
+.doc ul,.doc ol{margin:0 0 16px;padding-left:22px;max-width:76ch}
+.doc li{margin:5px 0}
+.doc li>ul,.doc li>ol{margin:6px 0 4px}
+.doc li::marker{color:var(--blue-300);font-weight:700}
+.doc strong{color:var(--ink);font-weight:600}
+.doc a{color:var(--blue-700)}
+.doc code{font:500 .86em/1.45 var(--mono);background:var(--blue-050);color:var(--blue-700);padding:2px 6px;border-radius:6px;overflow-wrap:anywhere}
+.doc pre{background:var(--navy);color:#E4EAF7;border-radius:14px;padding:18px 20px;overflow:auto;margin:0 0 18px;font:13px/1.65 var(--mono);tab-size:2}
+.doc pre code{background:none;color:inherit;padding:0;font:inherit;overflow-wrap:normal}
+.doc .tbl{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:12px}
+.doc table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5}
+.doc th,.doc td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.doc th{background:var(--bg);color:var(--ink);font-weight:600}
+.doc tr:last-child td{border-bottom:0}
+.doc td code{white-space:nowrap}
+
+/* index cards */
+.sk{position:relative;display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 20px 18px;box-shadow:var(--shadow-sm);transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
+.sk{color:inherit;text-decoration:none}
+.sk-top{min-height:64px;padding-right:76px}
+.sk-art{position:absolute;right:14px;top:12px;width:72px;height:62px;object-fit:contain;object-position:center top;filter:drop-shadow(0 12px 14px rgba(30,70,145,.22))}
+.sk .desc{-webkit-line-clamp:4}
+.btn small{font-weight:500;opacity:.7}
+.sk:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--blue-100)}
+.sk-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sk h3{font:700 17px/1.2 var(--mono);color:var(--ink);letter-spacing:-.01em;margin-right:auto}
+.sk h3 i{font-style:normal;color:var(--blue)}
+.sk p{margin:0;font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+.sk .desc{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.sk.open .desc{display:block}
+.sk .src{font-size:13px;line-height:1.5;color:var(--ink-3);padding-left:10px;border-left:2px solid var(--blue-100)}
+.sk .more{align-self:flex-start;border:0;background:none;color:var(--blue-700);font-weight:600;font-size:13px;padding:0;cursor:pointer}
+.sk .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.sk .meta span{font-size:12.5px;color:var(--ink-2);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.sk .meta span.manual{color:var(--warn);border-color:rgba(180,83,9,.25);background:#FFF7ED}
+.sk .meta a{font-size:12.5px;font-weight:600;color:var(--blue-700);padding:4px 2px;text-decoration:none}
+.sk .meta a:hover{text-decoration:underline}
+
+@media (max-width:980px){.pipe{grid-template-columns:repeat(3,minmax(0,1fr))}.pipe li:nth-child(5n)::after{display:block}.pipe li:nth-child(3n)::after{display:none}}
+@media (max-width:820px){
+  .fhead{grid-template-columns:1fr}
+  .fhead .art{position:absolute;right:-18px;top:18px;width:130px;opacity:.95}
+  .fhead .lede,.fhead h3{padding-right:96px}
+  .fhead .art::before{display:none}
+  .reader{grid-template-columns:minmax(0,1fr)}
+  .rfiles{z-index:5;flex-direction:row;gap:6px;max-height:none;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px 12px;scrollbar-width:none}
+  .rfiles::-webkit-scrollbar{display:none}
+  .rfiles .lbl{display:none}
+  .rfiles button{flex:none;padding:8px 12px}
+  .rfiles button small{display:none}
+}
+@media (max-width:560px){
+  .sk-art{width:60px;height:52px}
+  .pipe{grid-template-columns:minmax(0,1fr)}
+  .pipe li{padding:0 0 0 48px;min-height:34px}
+  .pipe li::after{left:16px;right:auto;top:40px;bottom:-18px;width:2px;height:auto;background:var(--blue-100)}
+  .pipe li:nth-child(3n)::after,.pipe li:nth-child(5n)::after{display:block}
+  .pipe li:last-child::after{display:none}
+  .pipe span{-webkit-line-clamp:unset}
+  .fhead h3{font-size:30px}
+  .fhead .lede{padding-right:0}
+  .fhead .art{display:none}
+  .fhead h3{padding-right:0}
+  .fhead .lede{font-size:15.5px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/logo/technext-wide-blue.png" alt="TechNext" width="150" height="30"><b>Claude Skills</b></a>
+    <nav class="nav" aria-label="Page">
+      <a href="#index">Skills</a>
+      <a href="#ours">Read</a>
+      <a href="#how">Install</a>
+      <a class="cta" href="https://technext.asia" target="_blank" rel="noopener">technext.asia</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker"><i></i>Claude Code skills &middot; made by TechNext</span>
+    <h1>Every skill we built, <em>one page.</em></h1>
+    <p>A skill is the playbook Claude reads before it starts a job. These are the skills TechNext wrote for its own work: videos, posters, social posts, decks and the AI marketing team. Each one is published in full, so anyone can read, download and install it. Claude updates them after every job.</p>
+    <label class="search" for="sq">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="sq" type="search" placeholder="Search skills: video, poster, reels, deck, leads&hellip;" autocomplete="off">
+      <kbd>/</kbd>
+    </label>
+    <div class="chips" role="group" aria-label="Filter skills">
+      <button class="chip" data-f="video" aria-pressed="false">Video &amp; Nexi</button>
+      <button class="chip" data-f="social" aria-pressed="false">Social posts</button>
+      <button class="chip" data-f="decks" aria-pressed="false">Presentations</button>
+      <button class="chip" data-f="team" aria-pressed="false">AI team</button>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</section>
+
+<section id="index">
+  <div class="wrap">
+    <div class="sec-head"><span class="n">1</span><h2>The skills</h2><p>Seven playbooks. Pick one to read it.</p><span class="count" id="count"></span></div>
+    <div class="grid" id="cards"></div>
+    <div class="empty" id="empty">No skill matches. Try &ldquo;video&rdquo;, &ldquo;poster&rdquo; or &ldquo;deck&rdquo;.</div>
+  </div>
+</section>
+
+<section id="ours">
+  <div class="wrap">
+    <div class="sec-head"><span class="n">2</span><h2>Read them in full</h2><p>Every doc and script, with a download and an install command.</p></div>
+    <div id="own"></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head"><span class="n">3</span><h2>How skills work</h2><p>Four things to know.</p></div>
+    <div class="rows">
+      <div class="row rv">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <span><b>Claude picks them up</b><span>When a request matches a skill&rsquo;s description, Claude reads the skill first. Type <code>/name</code> to call one directly. Skills marked &ldquo;manual&rdquo; only run when called.</span></span>
+      </div>
+      <div class="row rv">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg></span>
+        <span><b>Install a TechNext skill</b><span>Download the .zip and unzip it into <code>~/.claude/skills</code> (Windows: <code>C:\Users\&lt;you&gt;\.claude\skills</code>), or copy the install command. Then restart Claude Code.</span></span>
+      </div>
+      <div class="row rv">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>
+        <span><b>Kept up to date</b><span>After every job, Claude adds what it learned to the skill&rsquo;s lessons log and rules, then rebuilds this page with <code>tools/build_skills.py</code>.</span></span>
+      </div>
+      <div class="row rv">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <span><b>Add a new skill</b><span>Put its folder in <code>~/.claude/skills</code>, add its name to <code>OWN</code> in the build script, run it and push. Big render caches (like <code>nexi-cam</code>) stay on the PC and are left out of the zip.</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>TechNext Pte. Ltd. &middot; Claude Skills</span>
+    <a href="https://github.com/TechNextSG/technext-claude-skills" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/TechNextSG/technext-claude-skills/blob/main/tools/build_skills.py" target="_blank" rel="noopener">Build script</a>
+    <span class="right" id="built"></span>
+  </div>
+</footer>
+
+<script src="assets/skills/skills.js?v=e6dcc01d"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  var D=window.SKILLS||{skills:[]};
+  var $=function(s,r){return (r||document).querySelector(s);};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+  var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var day=function(iso){var p=String(iso).split('-');return p.length<3?iso:(+p[2])+' '+MON[+p[1]-1]+' '+p[0];};
+  var GROUP={video:'Video & Nexi',decks:'Presentations',social:'Social posts',team:'AI team'};
+  var LABEL={'SKILL.md':'Overview','engine.md':'Engine API','qa-checklist.md':'QA checklist','design-rules.md':'Design rules','lessons.md':'Lessons log','workflow.md':'Workflow','film-template.js':'Film template','rules.md':'Rulebook','content-rules.md':'Content rules','build-and-ship.md':'Build and ship','decks.md':'The decks','recipes.md':'Recipes','design.md':'Design system','deck_check.py':'QA gate script','deck_pdf.py':'PDF script','thumbs.py':'Thumbnail script','drive_sync.py':'Drive sync script','_cdp.py':'Chrome helper'};
+  var IC={
+    read:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m0 0 6-6m-6 6-6-6"/></svg>',
+    down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg>',
+    copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+  };
+  var label=function(path){var b=path.split('/').pop();return LABEL[b]||b.replace(/\.[a-z]+$/,'').replace(/[-_]/g,' ').replace(/^./,function(c){return c.toUpperCase();});};
+  var invoke=function(s){return s.invoke==='manual'?'Manual only':'Loads automatically';};
+  var tags=function(s){return (s.name+' '+s.id+' '+s.desc+' '+(s.summary||'')+' '+s.group+' '+(GROUP[s.group]||'')).toLowerCase();};
+
+  function mdHtml(doc){
+    if(doc.kind!=='md')return '<pre><code>'+esc(doc.text)+'</code></pre>';
+    if(window.marked&&marked.parse)return marked.parse(doc.text,{gfm:true});
+    return '<pre style="white-space:pre-wrap">'+esc(doc.text)+'</pre>';
+  }
+
+  /* ---------- TechNext skills: header, pipeline, reader ---------- */
+  function feature(s){
+    var zipUrl=new URL(s.zip,location.href).href;
+    var ps='iwr '+zipUrl+' -OutFile $env:TEMP\\'+s.id+'.zip; Expand-Archive $env:TEMP\\'+s.id+'.zip $HOME\\.claude\\skills -Force';
+    var sh='curl -sL '+zipUrl+' -o /tmp/'+s.id+'.zip && unzip -o /tmp/'+s.id+'.zip -d ~/.claude/skills';
+    var steps=(s.steps||[]).map(function(st){return '<li><b>'+esc(st.t)+'</b><span>'+esc(st.d)+'</span></li>';}).join('');
+    var files=(s.docs||[]).map(function(d,i){
+      return '<button type="button" role="tab" id="tab-'+s.id+'-'+i+'" aria-selected="'+(i===0)+'" aria-controls="doc-'+s.id+'" data-skill="'+s.id+'" data-i="'+i+'"><b>'+esc(label(d.path))+'</b><small>'+esc(d.path)+'</small></button>';
+    }).join('');
+    return '<article class="feat rv" id="'+s.id+'" data-f="own '+s.group+'" data-tags="'+esc(tags(s))+'">'
+      +'<div class="fhead"><div>'
+        +'<div class="eyebrow"><span class="badge own">TechNext</span><span class="badge">'+esc(GROUP[s.group]||s.group)+'</span><span class="badge">'+esc(invoke(s))+'</span></div>'
+        +'<h3><span>/</span>'+esc(s.id)+'</h3>'
+        +'<p class="lede">'+esc(s.summary||s.desc)+'</p>'
+        +'<ul class="kpis">'+((s.steps||[]).length?'<li><b>'+s.steps.length+' steps</b>per '+esc(s.unit||'job')+'</li>':'')+'<li><b>'+(s.docs||[]).length+' files</b>to read</li>'+(s.lessons?'<li><b>'+s.lessons+' rounds</b>of lessons logged</li>':'')+'<li><b>'+esc(day(s.date))+'</b>last updated</li></ul>'
+        +'<div class="links">'
+          +'<a class="btn p" href="#doc-'+s.id+'" data-jump="'+s.id+'">'+IC.read+'Read the skill</a>'
+          +'<a class="btn" href="'+esc(s.zip)+'" download>'+IC.down+'Download .zip <small>('+s.zipsize+')</small></a>'
+          +'<button class="btn" type="button" data-copy="'+esc(ps)+'" title="'+esc(ps)+'">'+IC.copy+'Install (PowerShell)</button>'
+          +'<button class="btn" type="button" data-copy="'+esc(sh)+'" title="'+esc(sh)+'">'+IC.copy+'Install (bash)</button>'
+        +'</div>'
+      +'</div>'+(s.art?'<div class="art"><img src="'+esc(s.art.src)+'" alt="" width="'+s.art.w+'" height="'+s.art.h+'" loading="lazy"></div>':'')+'</div>'
+      +(steps?'<div class="pipe-wrap"><h4>'+esc(s.pipe||'How we do one job')+'</h4><ol class="pipe">'+steps+'</ol></div>':'')
+      +'<div class="reader"><nav class="rfiles" role="tablist" aria-label="'+esc(s.id)+' files"><span class="lbl">Files</span>'+files+'</nav>'
+      +'<div class="doc" id="doc-'+s.id+'" role="tabpanel" tabindex="-1"></div></div>'
+      +'</article>';
+  }
+  function openDoc(id,i,push){
+    var s=D.skills.filter(function(k){return k.id===id;})[0];if(!s||!s.docs[i])return;
+    var d=s.docs[i],el=$('#doc-'+id);
+    $$('.rfiles button[data-skill="'+id+'"]').forEach(function(b){b.setAttribute('aria-selected',String(+b.getAttribute('data-i')===i));});
+    el.setAttribute('aria-labelledby','tab-'+id+'-'+i);
+    el.innerHTML='<div class="path"><span>'+esc(id+'/'+d.path)+'</span><button class="btn" type="button" data-copy-from="#doc-'+id+' .md">'+IC.copy+'Copy text</button></div><div class="md">'+mdHtml(d)+'</div>';
+    $$('table',el).forEach(function(t){var w=document.createElement('div');w.className='tbl';t.parentNode.insertBefore(w,t);w.appendChild(t);});
+    $$('a[href^="http"]',el).forEach(function(a){a.target='_blank';a.rel='noopener';});
+    if(push)history.replaceState(null,'','#'+id+'/'+d.path);
+  }
+
+  /* ---------- index cards ---------- */
+  function card(s){
+    var meta='<span>'+esc(GROUP[s.group]||s.group)+'</span>'
+      +((s.steps||[]).length?'<span>'+s.steps.length+' steps</span>':'')
+      +'<span>'+s.nfiles+' file'+(s.nfiles===1?'':'s')+'</span>'
+      +'<span>Updated '+esc(day(s.date))+'</span>';
+    return '<a class="sk rv" href="#'+s.id+'" data-f="'+s.group+'" data-tags="'+esc(tags(s))+'">'
+      +(s.art?'<img class="sk-art" src="'+esc(s.art.src)+'" alt="" width="'+s.art.w+'" height="'+s.art.h+'" loading="lazy">':'')
+      +'<div class="sk-top"><h3><i>/</i>'+esc(s.id)+'</h3></div>'
+      +'<p class="desc">'+esc(s.summary||s.desc)+'</p>'
+      +'<div class="meta">'+meta+'</div></a>';
+  }
+
+  var own=D.skills;
+  $('#own').innerHTML=own.map(feature).join('');
+  $('#cards').innerHTML=own.map(card).join('');
+  own.forEach(function(s){openDoc(s.id,0,false);});
+  var nd=0,ns=0;own.forEach(function(s){nd+=(s.docs||[]).length;ns+=(s.steps||[]).length;});
+  $('#stats').innerHTML='<span><b>'+own.length+'</b> skills</span><span><b>'+nd+'</b> docs to read</span><span><b>'+ns+'</b> pipeline steps</span><span>Updated <b>'+esc(day(D.built))+'</b></span>';
+  $('#built').textContent='Compiled '+day(D.built);
+
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('.rfiles button');
+    if(t){openDoc(t.getAttribute('data-skill'),+t.getAttribute('data-i'),true);var r=t.closest('.reader');if(r.getBoundingClientRect().top<0)r.scrollIntoView({block:'start'});return;}
+    var j=e.target.closest('[data-jump]');
+    if(j){e.preventDefault();$('#'+j.getAttribute('data-jump')+' .reader').scrollIntoView({behavior:'smooth',block:'start'});return;}
+  });
+  $$('.rfiles').forEach(function(nav){
+    nav.addEventListener('keydown',function(e){
+      if(['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].indexOf(e.key)<0)return;
+      var bs=$$('button',nav),i=bs.indexOf(document.activeElement);if(i<0)return;
+      e.preventDefault();var n=bs[(i+(e.key==='ArrowDown'||e.key==='ArrowRight'?1:bs.length-1))%bs.length];n.focus();n.click();
+    });
+  });
+
+  /* deep link: skills.html#nexi-video/reference/engine.md */
+  function fromHash(){
+    var h=decodeURIComponent(location.hash.slice(1));if(!h)return;
+    var id=h.split('/')[0],path=h.slice(id.length+1),s=own.filter(function(k){return k.id===id;})[0];
+    if(!s||!path)return;
+    s.docs.forEach(function(d,i){if(d.path===path){openDoc(id,i,false);setTimeout(function(){$('#'+id+' .reader').scrollIntoView({block:'start'});},60);}});
+  }
+  fromHash();addEventListener('hashchange',fromHash);
+
+  /* search + filter chips */
+  var inp=$('#sq'),chips=$$('.chip[data-f]'),f='';
+  function apply(){
+    var q=inp.value.trim().toLowerCase(),n=0,m=0;
+    $$('.feat,.sk').forEach(function(c){
+      var ok=(!q||c.getAttribute('data-tags').indexOf(q)>-1)&&(!f||(' '+c.getAttribute('data-f')+' ').indexOf(' '+f+' ')>-1);
+      c.classList.toggle('is-hidden',!ok);if(ok)c.classList.add('in');
+      if(c.classList.contains('sk')&&ok)n++;if(c.classList.contains('feat')&&ok)m++;
+    });
+    $('#count').textContent=n+' of '+own.length+' skills';
+    $('#empty').classList.toggle('show',n===0);
+    $('#ours').classList.toggle('is-hidden',m===0);
+  }
+  inp.addEventListener('input',apply);
+  chips.forEach(function(ch){ch.addEventListener('click',function(){
+    var on=ch.getAttribute('aria-pressed')==='true';
+    chips.forEach(function(c){c.setAttribute('aria-pressed','false');});
+    f=on?'':ch.getAttribute('data-f');ch.setAttribute('aria-pressed',on?'false':'true');apply();
+  });});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='/'&&document.activeElement!==inp&&!/input|textarea/i.test(document.activeElement.tagName)){e.preventDefault();inp.focus();}
+    if(e.key==='Escape'&&document.activeElement===inp){inp.value='';apply();inp.blur();}
+  });
+  apply();
+})();
+</script>
+<script src="assets/hub.js?v=2"></script>
+</body>
+</html>
