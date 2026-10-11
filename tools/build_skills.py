@@ -9,15 +9,13 @@ written to install from. Third-party skills are not listed here.
 Writes assets/skills/skills.js (window.SKILLS) and assets/skills/<name>.zip,
 and stamps skills.js?v=<md5> into index.html.
 
-Every skill also has its own public repo, TechNextSG/claude-skill-<name>,
-cloned under ~/ClaudeWork/claude-skills/. The build copies each skill there
-(same filters and redaction as the zip, plus a README).
+Every skill is also mirrored to a LOCAL-ONLY git repo under
+~/ClaudeWork/claude-skills/claude-skill-<name> (same filters and redaction as
+the zip). It is never pushed anywhere (owner, 2026-10-11).
 
     python tools/build_skills.py --push
 
-commits and pushes every skill repo that changed (creating it on GitHub the
-first time) and then this site. A Claude Code Stop hook (tools/autosync.py)
-runs it whenever a skill folder changes, so the repos follow every use.
+also commits and pushes this site.
 """
 import datetime
 import hashlib
@@ -201,23 +199,18 @@ A Claude Code skill made by [TechNext](https://technext.asia). Read it online wi
 
 ## Install
 
-```bash
-git clone https://github.com/{ORG}/{repo} ~/.claude/skills/{sid}
-```
-
-Then restart Claude Code. Update later with `git -C ~/.claude/skills/{sid} pull`.
+Unzip the download from the page above into `~/.claude/skills`, then restart Claude Code.
 
 This repo is generated from the working copy by `tools/build_skills.py` in
-[{ORG}/technext-claude-skills](https://github.com/{ORG}/technext-claude-skills) and updates after every job.
+[{ORG}/technext-claude-skills](https://github.com/{ORG}/technext-claude-skills) and is kept on the TechNext PC only.
 Big render caches stay on the PC and are left out.
 """
 
 
-def sync_repo(sid, folder, meta, push):
-    """Mirror one skill into its own repo; returns the repo URL."""
+def sync_repo(sid, folder, meta):
+    """Mirror one skill into its local-only repo; returns True if anything changed."""
     repo = f"claude-skill-{sid}"
     dest = REPOS / repo
-    url = f"https://github.com/{ORG}/{repo}"
     if not (dest / ".git").exists():
         dest.mkdir(parents=True, exist_ok=True)
         git(dest, "init", "-q", "-b", "main")
@@ -246,19 +239,7 @@ def sync_repo(sid, folder, meta, push):
     if changed:
         git(dest, "commit", "-q", "-m", f"Update {sid} ({datetime.date.today().isoformat()})\n\n"
             "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
-    if push:
-        if not git(dest, "remote", check=False):
-            exists = subprocess.run(["gh", "repo", "view", f"{ORG}/{repo}"], capture_output=True).returncode == 0
-            if exists:
-                git(dest, "remote", "add", "origin", url + ".git")
-                git(dest, "push", "-q", "-u", "-f", "origin", "main")
-            else:
-                subprocess.run(["gh", "repo", "create", f"{ORG}/{repo}", "--public", "--source", str(dest), "--push",
-                                "-d", f"Claude Code skill: {sid} (TechNext)", "-h", SITE_URL + "#" + sid],
-                               check=True, capture_output=True)
-        elif changed or git(dest, "status", "-sb").find("ahead") > -1:
-            git(dest, "-c", "http.postBuffer=524288000", "push", "-q")
-    return url, bool(changed)
+    return bool(changed)
 
 
 def main():
@@ -303,7 +284,7 @@ def main():
         write_zip(sid, folder, OUT / f"{sid}.zip")
         size = (OUT / f"{sid}.zip").stat().st_size
         s["zipsize"] = f"{size / 1048576:.1f} MB" if size >= 1048576 else f"{max(1, round(size / 1024))} KB"
-        s["repo"], s["repochanged"] = sync_repo(sid, folder, meta, push)
+        s["repochanged"] = sync_repo(sid, folder, meta)
         skills.append(s)
 
     changed = [s["id"] for s in skills if s.pop("repochanged")]
@@ -321,7 +302,7 @@ def main():
     for s in skills:
         print(f"{s['id']:24} {len(s['steps']):2} steps {len(s['docs']):3} docs  zip {s['zipsize']}")
     print(f"{len(skills)} skills -> {OUT.relative_to(SITE)} ({len(js) // 1024} KB skills.js)")
-    print("skill repos changed: " + (", ".join(changed) or "none"))
+    print("local skill repos changed: " + (", ".join(changed) or "none"))
     if push:
         git(SITE, "add", "index.html", "assets/skills", "tools")
         if git(SITE, "status", "--porcelain", "index.html", "assets/skills", "tools"):
