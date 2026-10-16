@@ -38,7 +38,7 @@ SITE_URL = "https://technextsg.github.io/technext-claude-skills/"
 
 # Skills TechNext wrote. Add a new one here to publish it.
 OWN = ["marketing-team", "nexi-character", "nexi-explains-posters", "nexi-video",
-       "technext-presentations", "technext-site-posts", "technext-social-posts"]
+       "technext-presentations", "technext-site-posts", "technext-social-posts", "hero-section-design"]
 
 # Filter group per skill.
 GROUP = {
@@ -46,6 +46,7 @@ GROUP = {
     "technext-presentations": "decks",
     "technext-social-posts": "social", "technext-site-posts": "social", "nexi-explains-posters": "social",
     "marketing-team": "team",
+    "hero-section-design": "web",
 }
 
 # How the page names one job of a skill ("10 steps per <unit>") and the heading over its steps.
@@ -57,6 +58,7 @@ JOB = {
     "technext-social-posts": ("batch", "How we make a post batch"),
     "technext-site-posts": ("batch", "How we make a site-post batch"),
     "marketing-team": ("run", "Every team run"),
+    "hero-section-design": ("hero", "How we design one hero"),
 }
 ART = {
     "nexi-video": "nexi-present.webp",
@@ -66,6 +68,7 @@ ART = {
     "technext-social-posts": "nexi-celebrate.webp",
     "technext-site-posts": "nexi-point-left.webp",
     "marketing-team": "nexi-clap.webp",
+    "hero-section-design": "nexi-present.webp",
 }
 
 # One plain line per skill for the cards and the header (SKILL.md openings are written for Claude).
@@ -76,6 +79,7 @@ BLURB = {
     "nexi-video": "Makes Nexi explainer videos: Odoo walkthroughs, quick tips and solution films with voice, captions, music and a strict release gate.",
     "technext-presentations": "Edits and checks TechNext's interactive HTML decks: company profile, Odoo series, client proposals, PDFs and the launcher.",
     "technext-site-posts": "Original illustrated 3:4 posts, one per technext.asia service, using the website only as a reference.",
+    "hero-section-design": "Designs website hero sections that look premium, not AI-generic: taste references, better fonts, Motion animation, then a guideline check and screenshots on desktop, tablet and phone.",
     "technext-social-posts": "Cinematic social posts that pair a TechNext service with a real Odoo process: 3:4 images and 9:16 reels, audited before delivery.",
 }
 
